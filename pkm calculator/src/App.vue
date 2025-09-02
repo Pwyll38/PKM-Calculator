@@ -25,8 +25,8 @@ export default {
       
     },
     
-    runCalcs(poke){
-      return dmgCalculator.calc(poke)
+    runCalcs(poke, move){
+      return dmgCalculator.calc(poke, move)
 
     }
   }
@@ -43,8 +43,11 @@ export default {
   <button @click="importString()">Import</button>
 
   <li v-for="poke in pokes">
-    <h4>{{ poke.name }}</h4>
-    <h2>{{ runCalcs(poke) }}</h2>
+    <h3>{{ poke.name }}</h3>
+    <li v-for="move in poke.moves">
+      <h5>{{ poke.move }}</h5>
+      {{ runCalcs(poke, move) }}
+    </li>
 
   </li>
 
