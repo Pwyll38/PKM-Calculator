@@ -14,12 +14,11 @@ export default {
     const pokes = ref([])
     const enemyPokes = ref([])
 
-
     return {
       pokesString,
       pokes,
       enemyPokes,
-      enemiesString,
+      enemiesString
     }
   },
 
@@ -39,6 +38,50 @@ export default {
     runCalcs(poke, enemy, move) {
       return dmgCalculator.calc(poke, enemy, move)
 
+    },
+
+    buildTableHeaders() {
+
+      var headers =
+        [
+          {
+            text: "MOVE", value: "move"
+          }
+        ]
+
+      this.enemyPokes.forEach(enemy => {
+
+        headers.push({
+          text: enemy.name, value: enemy.name
+        })
+
+      });
+
+      return headers
+    },
+
+    buildTableItems(poke) {
+      var items = []
+
+      poke.moves.forEach(move => {
+        items.push(
+          {
+            move: move
+          }
+        )
+      });
+
+      items.forEach(item => {
+        this.enemyPokes.forEach(enemy => {
+          item[enemy.name] = this.runCalcs(poke, enemy, item.move)
+        });
+      });
+
+
+
+
+      return items
+
     }
   }
 
@@ -56,15 +99,11 @@ export default {
   <textarea type="textarea" v-model="enemiesString"></textarea>
   <button @click="importEnemies()">Import enemies</button>
 
+
   <li v-for="poke in pokes">
-    <h3>{{ poke.name }}</h3>
-    <li v-for="move in poke.moves">
-    <h4>Move: {{ move }}</h4>
-      <li v-for="enemy in enemyPokes">
-        <h6>VS {{ enemy.name }}</h6>
-      {{ runCalcs(poke, enemy, move) }}
-      </li>
-    </li>
+    {{ poke.name }}
+
+    <EasyDataTable :headers="buildTableHeaders()" :items="buildTableItems(poke)" />
 
   </li>
 
