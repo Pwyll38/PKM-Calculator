@@ -20,7 +20,7 @@ export default {
   methods: {
     async importString() {
 
-      var data =
+      var example =
         `
       Beats walkin (Koraidon) @ Life Orb  
 Ability: Orichalcum Pulse  
@@ -90,9 +90,8 @@ Impish Nature
 - Recover  
       `
 
-      importPokesController.importPokes(this.pokesString, '123')
-
-      
+      this.pokes = importPokesController.importPokes(this.pokesString, '123')
+     
     }
   }
 
@@ -106,6 +105,10 @@ Impish Nature
 
   <textarea type="textarea" v-model="pokesString"></textarea>
   <button @click="importString()">Calc</button>
+
+  <li v-for="poke in pokes">
+    <h1>{{ poke }}</h1>
+  </li>
 
 </template>
 

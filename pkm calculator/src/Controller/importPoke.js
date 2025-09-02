@@ -66,7 +66,7 @@ function serialize(array, separator) {
     return text;
 }
 
-function getAbility(row) {
+function    getAbility(row) {
     var ability = row[1] ? row[1].trim() : '';
     if (calc.ABILITIES[9].indexOf(ability) !== -1) return ability;
 }
@@ -204,6 +204,8 @@ function updateDex(customsets) {
 
 function importPokes(pokes, name) {
 
+    var newPokes = []
+
     var rows = pokes.split("\n");
     var currentRow;
     var currentPoke;
@@ -229,15 +231,18 @@ function importPokes(pokes, name) {
                 currentPoke.teraType = getTeraType(rows[i + 1].split(":"));
                 currentPoke = getStats(currentPoke, rows, i + 1);
                 currentPoke = getMoves(currentPoke, rows, i);
-                console.log(currentPoke);
+
+                newPokes.push(currentPoke)
                 
                 addedpokes++;
+
             }
         }
     }
     if (addedpokes > 0) {
         console.log(
             "Successfully imported " + addedpokes + (addedpokes === 1 ? " set" : " sets"));
+            return newPokes
     } else {
         console.log("No sets imported, please check your syntax and try again");
     }
