@@ -117,7 +117,7 @@ export default {
   <li v-for="poke in pokes">
     <h2>{{ poke.name }}</h2>
 
-    <EasyDataTable :headers="buildTableHeaders()" :items="buildTableItems(poke)" />
+    <EasyDataTable :headers="buildTableHeaders()" :items="buildTableItems(poke)" alternating border-cell/>
 
   </li>
 
