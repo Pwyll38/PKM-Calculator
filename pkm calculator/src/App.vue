@@ -95,6 +95,7 @@ export default {
 
   <input type="checkbox" @click="this.conditions['weather']?this.conditions['weather'] = '':this.conditions['weather'] = 'Sun'">Sun</input>
   <input type="checkbox" @click="this.conditions['weather']?this.conditions['weather'] = '':this.conditions['weather'] = 'Rain'">Rain</input>
+  <input type="checkbox" @click="this.conditions['terrain']?this.conditions['terrain'] = '':this.conditions['terrain'] = 'Electric'">Electric terrain</input>
   <input type="checkbox" @click="this.conditions['offensiveTera']?this.conditions['offensiveTera'] = '':this.conditions['offensiveTera'] = 'Y'">Tera</input>
 
   <textarea type="textarea" v-model="pokesString"></textarea>
@@ -105,7 +106,7 @@ export default {
 
 
   <li v-for="poke in pokes">
-    {{ poke.name }}
+    <h2>{{ poke.name }}</h2>
 
     <EasyDataTable :headers="buildTableHeaders()" :items="buildTableItems(poke)" />
 

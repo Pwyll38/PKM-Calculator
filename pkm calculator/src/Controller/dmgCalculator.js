@@ -48,7 +48,8 @@ function calc(poke, enemy, move, conditions) {
             }),
             new Move(gen, move),
             new Field({
-                weather: conditions.weather
+                weather: conditions.weather,
+                terrain: conditions.terrain
             })
         );
 
