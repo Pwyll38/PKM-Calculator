@@ -34,7 +34,7 @@ export default {
 
     async importEnemies() {
 
-      this.enemyPokes = importPokesController.importPokes(this.pokesString, 'Pwylls')
+      this.enemyPokes = this.enemyPokes.concat(importPokesController.importPokes(this.pokesString, 'Pwylls'))
 
     },
 
@@ -93,17 +93,26 @@ export default {
 
 <template>
 
-  <input type="checkbox" @click="this.conditions['weather']?this.conditions['weather'] = '':this.conditions['weather'] = 'Sun'">Sun</input>
-  <input type="checkbox" @click="this.conditions['weather']?this.conditions['weather'] = '':this.conditions['weather'] = 'Rain'">Rain</input>
-  <input type="checkbox" @click="this.conditions['terrain']?this.conditions['terrain'] = '':this.conditions['terrain'] = 'Electric'">Electric terrain</input>
-  <input type="checkbox" @click="this.conditions['offensiveTera']?this.conditions['offensiveTera'] = '':this.conditions['offensiveTera'] = 'Y'">Tera</input>
+  <div>
+    <textarea type="textarea" v-model="pokesString"></textarea>
+    <button @click="importString()">Import friendlies</button>
+  </div>
+  <div v-if="pokes.length > 0">
+    <textarea type="textarea" v-model="enemiesString"></textarea>
+    <button @click="importEnemies()">Import enemies</button>
+  </div>
 
-  <textarea type="textarea" v-model="pokesString"></textarea>
-  <button @click="importString()">Import friendlies</button>
-
-  <textarea type="textarea" v-model="enemiesString"></textarea>
-  <button @click="importEnemies()">Import enemies</button>
-
+  <div v-if="enemyPokes.length > 0">
+    <input type="checkbox"
+      @click="this.conditions['weather'] ? this.conditions['weather'] = '' : this.conditions['weather'] = 'Sun'">Sun</input>
+    <input type="checkbox"
+      @click="this.conditions['weather'] ? this.conditions['weather'] = '' : this.conditions['weather'] = 'Rain'">Rain</input>
+    <input type="checkbox"
+      @click="this.conditions['terrain'] ? this.conditions['terrain'] = '' : this.conditions['terrain'] = 'Electric'">Electric
+    terrain</input>
+    <input type="checkbox"
+      @click="this.conditions['offensiveTera'] ? this.conditions['offensiveTera'] = '' : this.conditions['offensiveTera'] = 'Y'">Tera</input>
+  </div>
 
   <li v-for="poke in pokes">
     <h2>{{ poke.name }}</h2>

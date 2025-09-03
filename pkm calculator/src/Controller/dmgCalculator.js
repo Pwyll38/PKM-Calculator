@@ -3,7 +3,7 @@ import { calculate, Generations, Pokemon, Move, Field } from '@smogon/calc';
 function calc(poke, enemy, move, conditions) {
 
     try {
-        console.log(poke)
+        //console.log(poke)
         //console.log(enemy)
 
         //console.log(poke.evs);
