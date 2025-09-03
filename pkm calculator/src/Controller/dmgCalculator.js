@@ -17,7 +17,7 @@ function calc(poke, enemy, move, conditions) {
             def: poke.evs.df ? poke.evs.df : 0,
             spa: poke.evs.sa ? poke.evs.sa : 0,
             spd: poke.evs.sd ? poke.evs.spd : 0,
-            spe: poke.evs.sp ? poke.evs.spe : 0,
+            spe: poke.evs.sp ? poke.evs.sp : 0,
         }
 
         var enemyEvs = {
@@ -26,7 +26,7 @@ function calc(poke, enemy, move, conditions) {
             def: enemy.evs.df ? enemy.evs.df : 0,
             spa: enemy.evs.sa ? enemy.evs.sa : 0,
             spd: enemy.evs.sd ? enemy.evs.spd : 0,
-            spe: enemy.evs.sp ? enemy.evs.spe: 0,
+            spe: enemy.evs.sp ? enemy.evs.sp: 0,
         }
 
 
@@ -55,8 +55,7 @@ function calc(poke, enemy, move, conditions) {
 
         var resultString = result.desc().split('(')[1].split(')')[0] + ' ' + result.kochance().text
 
-        //var resultString = result.desc()
-
+        //var resultString = result.attacker.rawStats
 
         return resultString
 
@@ -67,6 +66,61 @@ function calc(poke, enemy, move, conditions) {
     }
 }
 
+
+function calcSpeed(poke, enemy, move, conditions) {
+
+    try {
+        
+        var pokeEvs = {
+            spe: poke.evs.sp ? poke.evs.sp : 0,
+        }
+
+        var enemyEvs = {
+            spe: enemy.evs.sp ? enemy.evs.sp: 0,
+        }
+
+
+        const gen = Generations.get(9);
+        const result = calculate(
+            gen,
+            new Pokemon(gen, poke.name, {
+                level: 50,
+                item: poke.item,
+                nature: poke.nature,
+                evs: pokeEvs,
+            }),
+            new Pokemon(gen, enemy.name, {
+                level: 50,
+                item: enemy.item,
+                nature: enemy.nature,
+                evs: enemyEvs,
+            }),
+            new Move(gen, move),
+            new Field({
+                weather: conditions.weather,
+                terrain: conditions.terrain
+            })
+        );
+
+        
+        if (enemy.item=='Choice Scarf') {
+            result.defender.rawStats.spe = result.defender.rawStats.spe * 1.5
+        }
+        if (poke.item=='Choice Scarf') {
+            result.attacker.rawStats.spe = result.attacker.rawStats.spe * 1.5
+        }
+        
+        var resultString = result.defender.rawStats.spe
+
+        return result.defender.rawStats.spe > result.attacker.rawStats.spe ? resultString + ' Attacker Underspeeds':resultString + ' Attacker Outspeeds' 
+
+    } catch (error) {
+        return 'Speed unknown'
+    }
+}
+
+
 export default {
-    calc
+    calc,
+    calcSpeed
 }

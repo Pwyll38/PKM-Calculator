@@ -34,12 +34,7 @@ export default {
 
     async importEnemies() {
 
-      this.enemyPokes = this.enemyPokes.concat(importPokesController.importPokes(this.pokesString, 'Pwylls'))
-
-    },
-
-    runCalcs(poke, enemy, move, conditions) {
-      return dmgCalculator.calc(poke, enemy, move, conditions)
+      this.enemyPokes = this.enemyPokes.concat(importPokesController.importPokes(this.enemiesString, 'Pwylls'))
 
     },
 
@@ -66,6 +61,10 @@ export default {
     buildTableItems(poke) {
       var items = []
 
+      items.push({
+        move: 'Speed Tiers'
+      })
+
       poke.moves.forEach(move => {
         items.push(
           {
@@ -76,7 +75,12 @@ export default {
 
       items.forEach(item => {
         this.enemyPokes.forEach(enemy => {
-          item[enemy.name] = this.runCalcs(poke, enemy, item.move, this.conditions)
+
+          if (item.move == 'Speed Tiers') {
+            item[enemy.name] = dmgCalculator.calcSpeed(poke, enemy, item.move, this.conditions)
+          } else {
+            item[enemy.name] = dmgCalculator.calc(poke, enemy, item.move, this.conditions)
+          }
         });
       });
 
@@ -117,7 +121,7 @@ export default {
   <li v-for="poke in pokes">
     <h2>{{ poke.name }}</h2>
 
-    <EasyDataTable :headers="buildTableHeaders()" :items="buildTableItems(poke)" alternating border-cell/>
+    <EasyDataTable :headers="buildTableHeaders()" :items="buildTableItems(poke)" alternating border-cell />
 
   </li>
 
