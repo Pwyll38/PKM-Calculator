@@ -14,11 +14,14 @@ export default {
     const pokes = ref([])
     const enemyPokes = ref([])
 
+    const conditions = ref({})
+
     return {
       pokesString,
       pokes,
       enemyPokes,
-      enemiesString
+      enemiesString,
+      conditions
     }
   },
 
@@ -35,8 +38,8 @@ export default {
 
     },
 
-    runCalcs(poke, enemy, move) {
-      return dmgCalculator.calc(poke, enemy, move)
+    runCalcs(poke, enemy, move, conditions) {
+      return dmgCalculator.calc(poke, enemy, move, conditions)
 
     },
 
@@ -73,12 +76,9 @@ export default {
 
       items.forEach(item => {
         this.enemyPokes.forEach(enemy => {
-          item[enemy.name] = this.runCalcs(poke, enemy, item.move)
+          item[enemy.name] = this.runCalcs(poke, enemy, item.move, this.conditions)
         });
       });
-
-
-
 
       return items
 
@@ -93,8 +93,12 @@ export default {
 
 <template>
 
+  <input type="checkbox" @click="this.conditions['weather']?this.conditions['weather'] = '':this.conditions['weather'] = 'Sun'">Sun</input>
+  <input type="checkbox" @click="this.conditions['weather']?this.conditions['weather'] = '':this.conditions['weather'] = 'Rain'">Rain</input>
+  <input type="checkbox" @click="this.conditions['offensiveTera']?this.conditions['offensiveTera'] = '':this.conditions['offensiveTera'] = 'Y'">Tera</input>
+
   <textarea type="textarea" v-model="pokesString"></textarea>
-  <button @click="importString()">Import</button>
+  <button @click="importString()">Import friendlies</button>
 
   <textarea type="textarea" v-model="enemiesString"></textarea>
   <button @click="importEnemies()">Import enemies</button>
