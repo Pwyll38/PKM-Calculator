@@ -1,7 +1,10 @@
 <script>
 
-import importPokesController from './Controller/importPoke'
+import pokesController from './Controller/importPoke'
 import dmgCalculator from './Controller/dmgCalculator';
+import dataScaper from './Controller/dataScraper';
+import pokedexController from './Controller/pokedexController';
+
 import { ref } from "vue";
 
 export default {
@@ -13,28 +16,70 @@ export default {
     const enemiesString = ref('')
     const pokes = ref([])
     const enemyPokes = ref([])
+    const pokeData = ref()
+    const teamHistory = ref(JSON.parse(localStorage.getItem('friendlyTeamsHistory')))
 
     const conditions = ref({})
+    const pkmImgList = ref({})
 
     return {
       pokesString,
       pokes,
       enemyPokes,
       enemiesString,
-      conditions
+      conditions,
+      pokeData,
+      teamHistory,
+      pkmImgList
     }
   },
 
   methods: {
+
+    getPkmImage(name) {
+    
+      //return 'https://img.pokemondb.net/sprites/home/normal/'+name.toLowerCase()+'.png'
+
+      return 'https://play.pokemonshowdown.com/sprites/dex/'+name.toLowerCase()+'.png'
+
+    },
+
+    async importAPIData() {
+
+      var pokeData;
+
+      if (localStorage.getItem('UsageData') === null) {
+        var pokeData = await dataScaper.getUsageData()
+
+        localStorage.setItem('UsageData', JSON.stringify(pokeData));
+
+        console.log('Saving usageData to local storage');
+
+      } else {
+        poke = localStorage.getItem('UsageData')
+      }
+
+
+      this.pokeData = pokeData
+
+      console.log(pokeData);
+
+
+    },
+
     async importString() {
 
-      this.pokes = importPokesController.importPokes(this.pokesString, 'Pwylls')
+      var friendlyTeam = pokesController.importPokes(this.pokesString, 'Pwylls')
+
+      localStorage.setItem('friendlyTeamsHistory', JSON.stringify(friendlyTeam));
+
+      this.pokes = friendlyTeam
 
     },
 
     async importEnemies() {
 
-      this.enemyPokes = this.enemyPokes.concat(importPokesController.importPokes(this.enemiesString, 'Pwylls'))
+      this.enemyPokes = this.enemyPokes.concat(pokesController.importPokes(this.enemiesString, 'Pwylls'))
 
     },
 
@@ -97,10 +142,24 @@ export default {
 
 <template>
 
+
+  <div>
+    <button @click="importAPIData()">Import API</button>
+  </div>
   <div>
     <textarea type="textarea" v-model="pokesString"></textarea>
     <button @click="importString()">Import friendlies</button>
   </div>
+
+  <div>Select team</div>
+  <li>
+    <ul>
+      <button>
+        <img v-for="item, index in teamHistory" :src=this.getPkmImage(teamHistory[index].name) alt="">
+      </button>
+    </ul>
+  </li>
+
   <div v-if="pokes.length > 0">
     <textarea type="textarea" v-model="enemiesString"></textarea>
     <button @click="importEnemies()">Import enemies</button>

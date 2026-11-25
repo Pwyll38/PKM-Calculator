@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@smogon/calc": "^0.10.0",
+    "jquery-csv": "^1.0.40",
     "vue": "^3.5.18",
     "vue3-easy-data-table": "^1.5.47"
   },

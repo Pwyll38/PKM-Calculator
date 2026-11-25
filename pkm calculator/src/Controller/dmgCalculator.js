@@ -112,7 +112,7 @@ function calcSpeed(poke, enemy, move, conditions) {
         
         var resultString = result.defender.rawStats.spe
 
-        return result.defender.rawStats.spe > result.attacker.rawStats.spe ? resultString + ' Attacker Underspeeds':resultString + ' Attacker Outspeeds' 
+        return result.defender.rawStats.spe > result.attacker.rawStats.spe ? resultString + ' Defender Outspeeds':resultString + ' Attacker Outspeeds' 
 
     } catch (error) {
         return 'Speed unknown'
