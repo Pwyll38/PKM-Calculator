@@ -36,9 +36,8 @@ export default {
 
     getPkmImage(name) {
 
-      //return 'https://img.pokemondb.net/sprites/home/normal/'+name.toLowerCase()+'.png'
-
       return 'https://play.pokemonshowdown.com/sprites/dex/' + name.toLowerCase() + '.png'
+
 
     },
 
@@ -65,18 +64,18 @@ export default {
 
       var friendlyTeam = pokesController.importPokes(this.pokesString, 'Pwylls')
 
-      if(this.teamHistory === null){
+      if (this.teamHistory === null) {
         console.log("Team history is null");
 
         this.teamHistory = []
-        
+
         this.teamHistory[0] = friendlyTeam
         localStorage.setItem('friendlyTeamsHistory', JSON.stringify(this.teamHistory))
-      }else{
+      } else {
         console.log(this.teamHistory);
 
         this.teamHistory.push(friendlyTeam)
-        
+
         localStorage.setItem('friendlyTeamsHistory', JSON.stringify(this.teamHistory));
       }
 
@@ -159,8 +158,8 @@ export default {
   <div>Select team</div>
   <li>
     <ul v-for="(team, index) in teamHistory">
-      <button @click="this.pokes = teamHistory">
-        <img v-for="(teammember, index) in team" :src="getPkmImage(teammember.name)" alt="">
+      <button @click="this.pokes = team">
+        <img v-for="(teammember, index) in team" :src="getPkmImage(teammember.name)" alt="" onerror="this.onerror = null;this.src = 'https://play.pokemonshowdown.com/sprites/dex/ababo.png'">
       </button>
     </ul>
   </li>
