@@ -20,7 +20,6 @@ export default {
     const teamHistory = ref(JSON.parse(localStorage.getItem('friendlyTeamsHistory')))
 
     const conditions = ref({})
-    const pkmImgList = ref({})
 
     return {
       pokesString,
@@ -30,17 +29,16 @@ export default {
       conditions,
       pokeData,
       teamHistory,
-      pkmImgList
     }
   },
 
   methods: {
 
     getPkmImage(name) {
-    
+
       //return 'https://img.pokemondb.net/sprites/home/normal/'+name.toLowerCase()+'.png'
 
-      return 'https://play.pokemonshowdown.com/sprites/dex/'+name.toLowerCase()+'.png'
+      return 'https://play.pokemonshowdown.com/sprites/dex/' + name.toLowerCase() + '.png'
 
     },
 
@@ -59,11 +57,7 @@ export default {
         poke = localStorage.getItem('UsageData')
       }
 
-
       this.pokeData = pokeData
-
-      console.log(pokeData);
-
 
     },
 
@@ -71,7 +65,21 @@ export default {
 
       var friendlyTeam = pokesController.importPokes(this.pokesString, 'Pwylls')
 
-      localStorage.setItem('friendlyTeamsHistory', JSON.stringify(friendlyTeam));
+      if(this.teamHistory === null){
+        console.log("Team history is null");
+
+        this.teamHistory = []
+        
+        this.teamHistory[0] = friendlyTeam
+        localStorage.setItem('friendlyTeamsHistory', JSON.stringify(this.teamHistory))
+      }else{
+        console.log(this.teamHistory);
+
+        this.teamHistory.push(friendlyTeam)
+        
+        localStorage.setItem('friendlyTeamsHistory', JSON.stringify(this.teamHistory));
+      }
+
 
       this.pokes = friendlyTeam
 
@@ -146,19 +154,21 @@ export default {
   <div>
     <button @click="importAPIData()">Import API</button>
   </div>
+
+
+  <div>Select team</div>
+  <li>
+    <ul v-for="(team, index) in teamHistory">
+      <button @click="this.pokes = teamHistory">
+        <img v-for="(teammember, index) in team" :src="getPkmImage(teammember.name)" alt="">
+      </button>
+    </ul>
+  </li>
+
   <div>
     <textarea type="textarea" v-model="pokesString"></textarea>
     <button @click="importString()">Import friendlies</button>
   </div>
-
-  <div>Select team</div>
-  <li>
-    <ul>
-      <button>
-        <img v-for="item, index in teamHistory" :src=this.getPkmImage(teamHistory[index].name) alt="">
-      </button>
-    </ul>
-  </li>
 
   <div v-if="pokes.length > 0">
     <textarea type="textarea" v-model="enemiesString"></textarea>
