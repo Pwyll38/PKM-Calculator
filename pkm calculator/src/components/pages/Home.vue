@@ -35,7 +35,7 @@ export default {
         const sidebarMenu = ref([{
 
             header: 'Teams',
-            hiddenOnCollapse: 'true'
+            hiddenOnCollapse: 'true',
 
         }])
 
@@ -67,6 +67,7 @@ export default {
                         childMenu.push(
                             {
                                 title: poke.name,
+                                href: '/poke?poke='+poke.name,
                                 icon: {
                                     element: 'img',
                                     class: 'pokemon-sidebar-icon',
@@ -83,6 +84,7 @@ export default {
                         {
                             title: team[0].name + " Team",
                             child: childMenu,
+                            href: '/team?team='+team[0].name + "Team",
                             icon: {
                                 element: 'img',
                                 class: 'pokemon-sidebar-icon',
@@ -219,13 +221,7 @@ export default {
 
 
 
-    <sidebar-menu :menu="this.sidebarMenu" @item-click="this.$router.push({
-        path: '/team',
-        query: {
-            team: 'test'
-        }
-
-    })"/>
+    <sidebar-menu showChild=true :menu="this.sidebarMenu" />
 
 
     <div>
