@@ -5,7 +5,7 @@ import Team from '../components/pages/Team.vue';
 
 const routes = [
     { path: '/', component: HomeScreen },
-    { path: '/team/', component: Team, props: (route) => ({team: route.query.team})}
+    { path: '/team', component: Team, props: (route) => ({team: route.query.team})}
 ];
 
 const router = createRouter({

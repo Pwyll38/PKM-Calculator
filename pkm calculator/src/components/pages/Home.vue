@@ -16,7 +16,7 @@ export default {
         SidebarMenu,
     },
 
-    name: 'Home Screen',
+    name: 'HomePage',
 
     beforeMount() {
         this.buildSidebarMenu()
