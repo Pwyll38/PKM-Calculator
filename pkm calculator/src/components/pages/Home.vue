@@ -12,6 +12,10 @@ import PokemonDisplay from '../reusables/PokemonDisplay.vue';
 
 export default {
 
+    components: {
+        SidebarMenu,
+    },
+
     name: 'Home Screen',
 
     beforeMount() {
@@ -30,7 +34,7 @@ export default {
 
         const sidebarMenu = ref([{
 
-            header: 'Pokemon',
+            header: 'Teams',
             hiddenOnCollapse: 'true'
 
         }])
@@ -43,14 +47,11 @@ export default {
             conditions,
             pokeData,
             teamHistory,
-            sidebarMenu
+            sidebarMenu,
         }
     },
 
 
-    components: {
-        SidebarMenu,
-    },
 
     methods: {
 
@@ -80,7 +81,7 @@ export default {
 
                     this.sidebarMenu.push(
                         {
-                            title: team[0].name,
+                            title: team[0].name + " Team",
                             child: childMenu,
                             icon: {
                                 element: 'img',
@@ -216,7 +217,15 @@ export default {
 
 <template>
 
-    <sidebar-menu :menu="this.sidebarMenu" />
+
+
+    <sidebar-menu :menu="this.sidebarMenu" @item-click="this.$router.push({
+        path: '/team',
+        query: {
+            team: 'test'
+        }
+
+    })"/>
 
 
     <div>
