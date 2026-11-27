@@ -1,4 +1,4 @@
-async function nameToNumber(name){
+async function nameToNumber(name) {
 
     var raw;
 
@@ -8,9 +8,16 @@ async function nameToNumber(name){
 
 
     var pkmobj = raw.filter(e => e.name == name)
-    
+
     return pkmobj.number
-    
+
 }
 
-export default {nameToNumber}
+function getPkmImage(name) {
+
+    return 'https://play.pokemonshowdown.com/sprites/dex/' + name.toLowerCase() + '.png'
+
+
+}
+
+export default { nameToNumber, getPkmImage }

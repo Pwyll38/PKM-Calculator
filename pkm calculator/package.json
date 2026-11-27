@@ -12,6 +12,8 @@
     "@smogon/calc": "^0.10.0",
     "jquery-csv": "^1.0.40",
     "vue": "^3.5.18",
+    "vue-router": "^5.5.3",
+    "vue-sidebar-menu": "^5.9.1",
     "vue3-easy-data-table": "^1.5.47"
   },
   "devDependencies": {
